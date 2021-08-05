@@ -1,5 +1,6 @@
 package com.example.bancodedados;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
@@ -22,6 +23,27 @@ public class BancoDeDados extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
         //Para criar a tabela usuário
         sqLiteDatabase.execSQL(criaTabela);
+    }
+
+    //Método para cadastrar um novo usuário na tabela
+    public boolean cadastrar(String nome, String email, String usuario, String senha){
+
+        //Abertura de conexão
+        SQLiteDatabase conexao = getWritableDatabase();
+
+        //Usando a classe ContentValues para atribuir o valor de cada tabela
+        ContentValues valores = new ContentValues();
+        valores.put("nome", nome); //nome_da_coluna, valor_do_campo
+        valores.put("email", email);
+        valores.put("usuario", usuario);
+        valores.put("senha", senha);
+
+        //Chamar o método insert() e testar se foi executado com sucesso
+        if (conexao.insert("usuario", null, valores) != -1){
+            return true;
+        } else {
+            return false; //
+        }
     }
 
     @Override
